@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contrat {
 
     @Id
@@ -33,8 +35,10 @@ public class Contrat {
 
     @OneToOne
     @JoinColumn(name = "id_reservation", unique = true)
+    @JsonIgnoreProperties("contrat")
     private Reservation reservation;
 
     @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("contrat")
     private List<Paiement> paiements;
 }

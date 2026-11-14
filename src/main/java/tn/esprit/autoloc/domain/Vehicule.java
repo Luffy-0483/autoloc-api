@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Vehicule {
 
     @Id
@@ -43,12 +45,15 @@ public class Vehicule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_agence")
+    @JsonIgnoreProperties({"vehicules", "employes"})
     private Agence agence;
 
     @OneToMany(mappedBy = "vehicule")
+    @JsonIgnoreProperties("vehicule")
     private List<Maintenance> maintenances;
 
     @OneToMany(mappedBy = "vehicule")
+    @JsonIgnoreProperties("vehicule")
     private List<Reservation> reservations;
 
     @ManyToMany
@@ -57,5 +62,6 @@ public class Vehicule {
         joinColumns = @JoinColumn(name = "id_vehicule"),
         inverseJoinColumns = @JoinColumn(name = "id_equipement")
     )
+    @JsonIgnoreProperties("vehicules")
     private List<Equipement> equipements;
 }

@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Agence {
 
     @Id
@@ -33,8 +35,10 @@ public class Agence {
     private String telephone;
 
     @OneToMany(mappedBy = "agence")
+    @JsonIgnoreProperties("agence")
     private List<Employe> employes;
 
     @OneToMany(mappedBy = "agence")
+    @JsonIgnoreProperties("agence")
     private List<Vehicule> vehicules;
 }
